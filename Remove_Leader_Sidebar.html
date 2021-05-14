@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+</head>
+  <body onload="changeToMale()">
+    <form id="Form">
+      <div>
+        <p>Select the gender of the leader:</p>
+
+        <div>
+          <input type="radio" id="male" name="gender" value="Male" onchange='changeToMale()' checked>
+          <label for="male">Male</label>
+        </div>
+
+        <div>
+          <input type="radio" id="female" name="gender" value="Female" onchange='changeToFemale()'>
+          <label for="female">Female</label>
+        </div>
+      </div>
+      <br>
+
+      <div>
+        <label for="leader_select">Select leader:</label><br>
+
+        <select name="leaders" id="leader_select" required>
+          <option value="">--Please choose an option--</option>
+        </select>
+      </div>
+      <br>
+      
+      <div>
+        <input class="SubmitButton" type="submit" name="SUBMITBUTTON"
+         id='submit' value="Submit" style="font-size:20px; "/>
+      </div>
+    </form>
+  </body>
+
+  <script>
+    function changeToMale() {
+      google.script.run
+        .withFailureHandler(onFailure)
+        .withSuccessHandler(addListValues)
+        .getLeadersAndColeaders('Male');
+    }
+
+    function changeToFemale() {
+      google.script.run
+        .withFailureHandler(onFailure)
+        .withSuccessHandler(addListValues)
+        .getLeadersAndColeaders('Female');
+    }
+
+    function clearListValues() {
+      var select = document.getElementById('leader_select');
+      for (var i = select.length-1; i > 0; i--) {
+        select.remove(i);
+      }
+    }
+
+    function addListValues(values) {
+      clearListValues();
+
+      var select = document.getElementById('leader_select');
+      for (var i = 0; i < values.length; i++) {
+        var option = document.createElement('option');
+        if (values[i][1] === '') option.text = values[i][0];
+        else option.text = values[i][0] + ' and ' + values[i][1];
+        select.add(option);
+      }
+    }
+
+    document.getElementById('submit').onclick = function() {
+      google.script.run
+        .withFailureHandler(onFailure)
+        .withSuccessHandler(google.script.host.close)
+        .deleteLeader(document.getElementById('leader_select').value);
+    };
+
+    function onFailure(err) {
+      alert('There was an error!' + err.message);
+    }
+  </script>
+
+</html>

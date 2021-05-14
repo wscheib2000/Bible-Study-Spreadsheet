@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+</head>
+  <body>
+    <form id="Form">
+      <div>
+        <label for="campus">Enter campus name:</label><br>
+        <input type="text" id="campus" name="campus">
+      </div>
+
+      <div>
+        <p>Does your campus have Greek life?</p>
+
+        <div>
+          <input type="radio" id="greekYes" name="greek" value="true" checked>
+          <label for="greekYes">Yes</label>
+        </div>
+
+        <div>
+          <input type="radio" id="greekNo" name="greek" value="false">
+          <label for="greekNo">No</label>
+        </div>
+      </div>
+
+      <div>
+        <p>Would you like to include graduate students?</p>
+
+        <div>
+          <input type="radio" id="gradYes" name="grad" value="true" checked>
+          <label for="gradYes">Yes</label>
+        </div>
+
+        <div>
+          <input type="radio" id="gradNo" name="grad" value="false">
+          <label for="gradNo">No</label>
+        </div>
+      </div>
+      <br>
+
+      <div>
+        <input class="SubmitButton" type="submit" name="SUBMITBUTTON"
+         id='submit' value="Submit" style="font-size:20px; "/>
+      </div>
+    </form>
+  </body>
+
+  <script>
+      document.getElementById('submit').onclick = function() {
+      google.script.run
+        .withFailureHandler(onFailure)
+        .withSuccessHandler(google.script.host.close)
+        .setupPostForm(document.getElementById('campus').value,
+                    document.querySelector('input[name="greek"]:checked').value === 'true',
+                    document.querySelector('input[name="grad"]:checked').value === 'true');
+    };
+
+    function onFailure(err) {
+      alert('There was an error!' + err.message);
+    }
+  </script>
+
+<html>

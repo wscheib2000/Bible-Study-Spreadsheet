@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+</head>
+  <body>
+    <form id="Form">
+      <div>
+        <label for="name">Enter name:</label><br>
+        <input type="text" id="name" name="name">
+      </div>
+      <br>
+
+      <div>
+        <label for="coleader">Enter coleader name (optional):</label><br>
+        <input type="text" id="coleader" name="coleader">
+      </div>
+
+      <div>
+        <p>Select the gender of the leader:</p>
+
+        <div>
+          <input type="radio" id="male" name="gender" value="Male" checked>
+          <label for="male">Male</label>
+        </div>
+
+        <div>
+          <input type="radio" id="female" name="gender" value="Female">
+          <label for="female">Female</label>
+        </div>
+      </div>
+      <br>
+
+      <div>
+        <input type="color" id="color" name="color" value="#ff0000">
+        <label for="color">Color</label>
+      </div>
+      <br>
+
+      <div>
+        <input class="SubmitButton" type="submit" name="SUBMITBUTTON"
+         id='submit' value="Submit" style="font-size:20px; "/>
+      </div>
+    </form>
+  </body>
+
+  <script>
+      document.getElementById('submit').onclick = function() {
+      google.script.run
+        .withFailureHandler(onFailure)
+        .withSuccessHandler(google.script.host.close)
+        .postLeader(document.getElementById('name').value,
+                    document.getElementById('coleader').value,
+                    document.querySelector('input[name="gender"]:checked').value,
+                    document.getElementById('color').value);
+    };
+
+    function onFailure(err) {
+      alert('There was an error!' + err.message);
+    }
+  </script>
+
+<html>

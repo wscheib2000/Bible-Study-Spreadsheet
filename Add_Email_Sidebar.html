@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+</head>
+  <body> <!-- Modified -->
+    <form id="Form"> <!-- Modified -->
+      <label for="email">Enter email:</label><br>
+      <input type="text" id="email" name="email">
+      <br>
+
+      <p>Select the gender(s) about which you would like to be notified:</p>
+
+      <div>
+        <input type="radio" id="men" name="gender" value="Male" checked>
+        <label for="men">Men</label>
+      </div>
+
+      <div>
+        <input type="radio" id="women" name="gender" value="Female">
+        <label for="women">Women</label>
+      </div>
+
+      <div>
+        <input type="radio" id="both" name="gender" value="MaleFemale">
+        <label for="both">Both</label>
+      </div>
+      <br>
+
+      <p>Select a notification frequency:</p>
+
+      <div>
+        <input type="radio" id="daily" name="freq" value="Daily" checked>
+        <label for="daily">Daily</label>
+      </div>
+
+      <div>
+        <input type="radio" id="weekly" name="freq" value="Weekly">
+        <label for="weekly">Weekly</label>
+      </div>
+      <br>
+
+      <div>
+        <input class="SubmitButton" type="submit" name="SUBMITBUTTON"
+         id='submit' value="Submit" style="font-size:20px; "/>
+      </div>
+    </form>
+  </body>
+
+  <script>
+      document.getElementById('submit').onclick = function() {
+      google.script.run
+        .withFailureHandler(onFailure)
+        .withSuccessHandler(google.script.host.close)
+        .postEmail(document.getElementById('email').value,
+                   document.querySelector('input[name="gender"]:checked').value,
+                   document.querySelector('input[name="freq"]:checked').value);
+    };
+
+    function onFailure(err) {
+      alert('There was an error!' + err.message);
+    }
+  </script>
+
+<html>

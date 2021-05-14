@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+</head>
+  <body onload="addList()">
+    <form id="Form">
+      <div>
+        <label for="email_select">Select email:</label><br>
+
+        <select name="emails" id="email_select" required>
+          <option value="">--Please choose an option--</option>
+        </select>
+      </div>
+      <br>
+      
+      <div>
+        <input class="SubmitButton" type="submit" name="SUBMITBUTTON"
+         id='submit' value="Submit" style="font-size:20px; "/>
+      </div>
+    </form>
+  </body>
+
+  <script>
+    function addList() {
+      google.script.run
+        .withFailureHandler(onFailure)
+        .withSuccessHandler(addListValues)
+        .getEmails();
+    }
+
+    function addListValues(values) {
+      var select = document.getElementById('email_select');
+      for (var i = 0; i < values.length; i++) {
+        var option = document.createElement('option');
+        option.text = values[i];
+        select.add(option);
+      }
+    }
+
+    document.getElementById('submit').onclick = function() {
+      google.script.run
+        .withFailureHandler(onFailure)
+        .withSuccessHandler(google.script.host.close)
+        .deleteEmail(document.getElementById('email_select').value);
+    };
+
+    function onFailure(err) {
+      alert('There was an error!' + err.message);
+    }
+  </script>
+
+<html>
